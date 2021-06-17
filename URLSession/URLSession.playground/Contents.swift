@@ -24,13 +24,17 @@ let jsonUrlString = "http://api.letsbuildthatapp.com/jsondecodable/website_descr
 // URLSession
 func fetchData<T>(url: String, completion: @escaping (_ dt: T?, _ err: Error?) -> Void) where T: Decodable {
   guard let url = URL(string: url) else { return }
-  
+  var request = URLRequest(url: url)
+  request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+  request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")
+  request.httpMethod = "GET"
+
   let config = URLSessionConfiguration.default
   config.timeoutIntervalForRequest = 3
   config.timeoutIntervalForResource = 3
 
   let session = URLSession(configuration: config)
-  session.dataTask(with: url) { data, _, error in
+  session.dataTask(with: request) { data, _, error in
     guard let data = data else { return }
     do {
       let result = try JSONDecoder().decode(T.self, from: data)
@@ -41,7 +45,8 @@ func fetchData<T>(url: String, completion: @escaping (_ dt: T?, _ err: Error?) -
   }.resume()
 }
 
-fetchData(url: jsonUrlString) { (data: MainCourse?, error) in
-  guard let data = data else { return }
+fetchData(url: jsonUrlString) { (data: MainCourse?, error: Error?) in
+  guard let data = data,
+        error == nil else { return }
   print(data.courses)
 }
