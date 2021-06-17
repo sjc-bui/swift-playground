@@ -34,10 +34,13 @@ func fetchData<T>(url: String, completion: @escaping (_ dt: T?, _ err: Error?) -
   config.timeoutIntervalForResource = 3
 
   let session = URLSession(configuration: config)
-  session.dataTask(with: request) { data, _, error in
+  session.dataTask(with: request) { data, response, error in
     guard let data = data else { return }
     do {
       let result = try JSONDecoder().decode(T.self, from: data)
+      if let response = response as? HTTPURLResponse {
+        print("Status code = \(response.statusCode)")
+      }
       completion(result, nil)
     } catch let error {
       completion(nil, error)
