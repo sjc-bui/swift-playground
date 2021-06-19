@@ -4,5 +4,6 @@
         <page name='URLSession'/>
         <page name='Closures'/>
         <page name='Operators'/>
+        <page name='Subscripts'/>
     </pages>
 </playground>
