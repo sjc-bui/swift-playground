@@ -5,5 +5,7 @@
         <page name='Closures'/>
         <page name='Operators'/>
         <page name='Subscripts'/>
+        <page name='Extensions'/>
+        <page name='Protocols'/>
     </pages>
 </playground>
