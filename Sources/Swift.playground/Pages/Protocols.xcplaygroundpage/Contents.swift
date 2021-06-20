@@ -1,7 +1,5 @@
 //: [Previous](@previous)
 
-import UIKit
-
 protocol Togglable {
   mutating func toggle()
 }
